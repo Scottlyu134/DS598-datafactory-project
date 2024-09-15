@@ -1,0 +1,9 @@
+{
+	"name": "yixinlyudf1",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "eaab6da8-c216-4bca-85af-e7675fd78727",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}
