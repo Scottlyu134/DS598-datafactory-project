@@ -1,0 +1,195 @@
+{
+	"name": "weatheractivities",
+	"properties": {
+		"activities": [
+			{
+				"name": "Openweather",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "https://MyWeatherKeyVault.vault.azure.net/secrets/OpeneatherAPI?api-version=7.0",
+					"body": {
+						"name": "test",
+						"file": "abfs://scripts@manhernastorage.blob.core.windows.net/p-scala-spark-1.0-SNAPSHOT.jar",
+						"className": "euclidobservability.spark.ScalaSparkListenerTest",
+						"args": [],
+						"jars": [
+							"abfs://scripts@manhernastorage.blob.core.windows.net/jars/p-TelemetrySDK-1.2.0-jar-with-dependencies.jar"
+						],
+						"files": [],
+						"archives": [],
+						"conf": null,
+						"driverMemory": "4g",
+						"driverCores": 4,
+						"executorMemory": "2g",
+						"executorCores": 1,
+						"numExecutors": 1
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Openweather",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('dateRanges')\n",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "RestResource1",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Json1",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "Openweather",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greaterOrEquals(variables('currentDate'), pipeline().parameters.endDate)\n",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "append week",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "dateRanges",
+								"value": [
+									"@concat(variables('dateRanges')",
+									" [\n  {\n    \"startDate\": \"@{variables('currentDate')}\"",
+									" \n    \"endDate\": \"@{addDays(variables('currentDate'), 7)}\"\n  }\n])\n"
+								]
+							}
+						},
+						{
+							"name": "increment",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "append week",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "currentDate",
+								"value": "@addDays(variables('currentDate'), 7)\n"
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"startDate": {
+				"type": "string",
+				"defaultValue": "2023-09-18"
+			},
+			"endDate": {
+				"type": "string",
+				"defaultValue": "2024-09-18"
+			}
+		},
+		"variables": {
+			"dateRanges": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"currentDate": {
+				"type": "String",
+				"defaultValue": "@pipeline().parameters.startDate"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-04-20T22:02:37Z"
+	}
+}
