@@ -7,10 +7,12 @@
 		},
 		"parameters": {
 			"startDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@addDays(pipeline().parameters.startDate, item() * 7, 'yyyy-MM-dd')"
 			},
 			"endDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@addDays(pipeline().parameters.startDate, (item() * 7) + 7, 'yyyy-MM-dd')"
 			}
 		},
 		"annotations": [],
