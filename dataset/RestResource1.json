@@ -17,7 +17,7 @@
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "https://history.openweathermap.org/data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=9cbcdd7a500b50c08496a2255abfe4fe\n",
+				"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=9cbcdd7a500b50c08496a2255abfe4fe\n",
 				"type": "Expression"
 			}
 		},
