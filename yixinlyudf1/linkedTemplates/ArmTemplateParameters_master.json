@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "yixinlyudf1"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"GitHubforScottLyu_credential": {
+			"value": ""
+		},
+		"RestService1_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://yixinlyuds598.dfs.core.windows.net/"
+		},
+		"GitHubforScottLyu_properties_typeProperties_username": {
+			"value": "Scottlyu134"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/data/2.5/air_pollution/history?lat=42.3601&lon=-71.0589&start=1695081600&end=1726617600&appid=9cbcdd7a500b50c08496a2255abfe4fe"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"value": "Scottlyu134"
+		},
+		"weatherKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://OpenwheatherAPI.vault.azure.net/"
+		},
+		"weatherboston1_properties_typeProperties_url": {
+			"value": "https://history.openweathermap.org/data/2.5/history/city"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
