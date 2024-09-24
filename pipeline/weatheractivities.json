@@ -159,11 +159,32 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "currentDate",
+								"variableName": "tempDate",
 								"value": {
-									"value": "@variables('tempDate')\n",
+									"value": "@addDays(formatDateTime(variables('currentDate'), 'yyyy-MM-dd'), 7)\n",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "currentdate",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "increment",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "currentDate",
+								"value": "@variables('tempDate')\n"
 							}
 						}
 					],
@@ -187,12 +208,10 @@
 				"defaultValue": []
 			},
 			"currentDate": {
-				"type": "String",
-				"defaultValue": "@pipeline().parameters.startDate"
+				"type": "String"
 			},
 			"tempDate": {
-				"type": "String",
-				"defaultValue": "@addDays(formatDateTime(variables('currentDate'), 'yyyy-MM-dd'), 7)"
+				"type": "String"
 			}
 		},
 		"annotations": [],
