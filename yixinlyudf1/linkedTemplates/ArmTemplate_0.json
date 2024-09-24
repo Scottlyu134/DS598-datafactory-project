@@ -223,7 +223,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://MyWeatherKeyVault.vault.azure.net/secrets/OpeneatherAPI?api-version=7.0",
+							"url": "https://OpenwheatherAPI.vault.azure.net/secrets/OpeneatherAPI?api-version=7.0",
 							"body": {
 								"name": "test",
 								"file": "abfs://scripts@manhernastorage.blob.core.windows.net/p-scala-spark-1.0-SNAPSHOT.jar",
