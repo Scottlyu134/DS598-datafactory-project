@@ -94,7 +94,7 @@
 						}
 					},
 					{
-						"name": "ForEach1",
+						"name": "ForEach2",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -107,12 +107,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@variables('dateRanges')\n",
+								"value": "@range(0, div(sub(ticks(pipeline().parameters.endDate), ticks(pipeline().parameters.startDate)), 604800000000))\n",
 								"type": "Expression"
 							},
 							"activities": [
 								{
-									"name": "Copy data1",
+									"name": "Copy data2",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -148,7 +148,10 @@
 										{
 											"referenceName": "RestResource1",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"startDate": "@addDays(parameters('startDate'), item() * 7, 'yyyy-MM-dd')",
+												"endDate": "@addDays(parameters('startDate'), (item() * 7) + 7, 'yyyy-MM-dd')"
+											}
 										}
 									],
 									"outputs": [
@@ -160,93 +163,6 @@
 									]
 								}
 							]
-						}
-					},
-					{
-						"name": "Until1",
-						"type": "Until",
-						"dependsOn": [
-							{
-								"activity": "Openweather",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@greaterOrEquals(variables('currentDate'), pipeline().parameters.endDate)\n",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "append week",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "dateRanges",
-										"value": {
-											"value": "[[\"@concat(variables('dateRanges')\",\" [\\n  {\\n    \\\"startDate\\\": \\\"@{variables('currentDate')}\\\"\",\" \\n    \\\"endDate\\\": \\\"@{addDays(variables('currentDate'), 7)}\\\"\\n  }\\n])\\n\"]",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "increment",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "append week",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "tempDate",
-										"value": {
-											"value": "@addDays(formatDateTime(variables('currentDate'), 'yyyy-MM-dd'), 7)\n",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "currentdate",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "increment",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "currentDate",
-										"value": {
-											"value": "@variables('tempDate')\n",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"timeout": "0.12:00:00"
 						}
 					}
 				],
@@ -269,9 +185,16 @@
 						"defaultValue": []
 					},
 					"currentDate": {
-						"type": "String"
+						"type": "String",
+						"defaultValue": "2023-09-18"
 					},
 					"tempDate": {
+						"type": "String"
+					},
+					"endofDate": {
+						"type": "String"
+					},
+					"startofDate": {
 						"type": "String"
 					}
 				},
@@ -318,36 +241,18 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"lat": {
-						"type": "string",
-						"defaultValue": "42.3601"
+					"startDate": {
+						"type": "string"
 					},
-					"lon": {
-						"type": "string",
-						"defaultValue": "-71.0589"
-					},
-					"dataType": {
-						"type": "string",
-						"defaultValue": "hourly"
-					},
-					"start": {
-						"type": "string",
-						"defaultValue": "1695081600"
-					},
-					"end": {
-						"type": "string",
-						"defaultValue": "1726617600"
-					},
-					"appid": {
-						"type": "string",
-						"defaultValue": "9cbcdd7a500b50c08496a2255abfe4fe"
+					"endDate": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n",
+						"value": "https://history.openweathermap.org/data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=9cbcdd7a500b50c08496a2255abfe4fe\n",
 						"type": "Expression"
 					}
 				},
