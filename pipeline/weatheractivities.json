@@ -136,11 +136,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "dateRanges",
-								"value": [
-									"@concat(variables('dateRanges')",
-									" [\n  {\n    \"startDate\": \"@{variables('currentDate')}\"",
-									" \n    \"endDate\": \"@{addDays(variables('currentDate'), 7)}\"\n  }\n])\n"
-								]
+								"value": {
+									"value": "[\"@concat(variables('dateRanges')\",\" [\\n  {\\n    \\\"startDate\\\": \\\"@{variables('currentDate')}\\\"\",\" \\n    \\\"endDate\\\": \\\"@{addDays(variables('currentDate'), 7)}\\\"\\n  }\\n])\\n\"]",
+									"type": "Expression"
+								}
 							}
 						},
 						{
@@ -161,7 +160,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "currentDate",
-								"value": "@addDays(variables('currentDate'), 7)\n"
+								"value": {
+									"value": "@variables('tempDate')\n",
+									"type": "Expression"
+								}
 							}
 						}
 					],
@@ -187,6 +189,10 @@
 			"currentDate": {
 				"type": "String",
 				"defaultValue": "@pipeline().parameters.startDate"
+			},
+			"tempDate": {
+				"type": "String",
+				"defaultValue": "@addDays(formatDateTime(variables('currentDate'), 'yyyy-MM-dd'), 7)"
 			}
 		},
 		"annotations": [],
