@@ -128,25 +128,6 @@
 				"defaultValue": "@utcNow('yyyy-MM-dd')"
 			}
 		},
-		"variables": {
-			"dateRanges": {
-				"type": "Array",
-				"defaultValue": []
-			},
-			"currentDate": {
-				"type": "String",
-				"defaultValue": "2023-09-18"
-			},
-			"tempDate": {
-				"type": "String"
-			},
-			"endofDate": {
-				"type": "String"
-			},
-			"startofDate": {
-				"type": "String"
-			}
-		},
 		"annotations": [],
 		"lastPublishTime": "2022-04-20T22:02:37Z"
 	}
