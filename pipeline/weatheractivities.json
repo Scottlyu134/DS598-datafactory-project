@@ -96,8 +96,14 @@
 									"referenceName": "RestResource1",
 									"type": "DatasetReference",
 									"parameters": {
-										"startDate": "@addDays(parameters('startDate'), item() * 7, 'yyyy-MM-dd')",
-										"endDate": "@addDays(parameters('startDate'), (item() * 7) + 7, 'yyyy-MM-dd')"
+										"startDate": {
+											"value": "@addDays(pipeline().parameters.startDate, mul(item(), 7), 'yyyy-MM-dd')\n",
+											"type": "Expression"
+										},
+										"endDate": {
+											"value": "@addDays(pipeline().parameters.startDate, add(mul(item(), 7), 7), 'yyyy-MM-dd')\n",
+											"type": "Expression"
+										}
 									}
 								}
 							],
@@ -115,11 +121,11 @@
 		"parameters": {
 			"startDate": {
 				"type": "string",
-				"defaultValue": "2023-09-18"
+				"defaultValue": "@addDays(utcNow(), -365, 'yyyy-MM-dd')"
 			},
 			"endDate": {
 				"type": "string",
-				"defaultValue": "2024-09-18"
+				"defaultValue": "@utcNow('yyyy-MM-dd')"
 			}
 		},
 		"variables": {
