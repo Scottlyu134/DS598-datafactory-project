@@ -57,6 +57,7 @@
 						"value": "@range(0, 52)\n",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy data2",
