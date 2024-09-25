@@ -10,10 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "weather_data_@{formatDateTime(addDays(utcNow(), -1), 'yyyyMMdd')}.json",
-					"type": "Expression"
-				},
 				"folderPath": "Bronze",
 				"fileSystem": "container1"
 			}
