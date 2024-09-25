@@ -288,7 +288,7 @@
 													"type": "Expression"
 												},
 												"apiKey": {
-													"value": "@activity('Openweather').output.secret\n",
+													"value": "@activity('Openweather').output.value\n",
 													"type": "Expression"
 												}
 											}
