@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "https://yixinlyuds598.dfs.core.windows.net/"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://OpenwheatherAPI.vault.azure.net/"
+		},
 		"GitHubforScottLyu_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "Scottlyu134"
@@ -26,10 +30,6 @@
 		"pollution_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "http://api.openweathermap.org/"
-		},
-		"weatherKeyVault1_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://OpenwheatherAPI.vault.azure.net/"
 		},
 		"weatherboston1_properties_typeProperties_url": {
 			"type": "string",
@@ -53,6 +53,19 @@
 						"type": "SecureString",
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -87,19 +100,6 @@
 					"url": "[parameters('pollution_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/weatherKeyVault1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('weatherKeyVault1_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -199,7 +199,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://OpenwheatherAPI.vault.azure.net/secrets/OpenWeatherAPIKey? api-version=7.0",
+							"url": "https://OpenwheatherAPI.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 							"body": {
 								"name": "test",
 								"file": "abfs://scripts@manhernastorage.blob.core.windows.net/p-scala-spark-1.0-SNAPSHOT.jar",

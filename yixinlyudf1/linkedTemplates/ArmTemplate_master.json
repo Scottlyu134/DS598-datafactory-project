@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "https://yixinlyuds598.dfs.core.windows.net/"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://OpenwheatherAPI.vault.azure.net/"
+		},
 		"GitHubforScottLyu_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "Scottlyu134"
@@ -26,10 +30,6 @@
 		"pollution_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "http://api.openweathermap.org/"
-		},
-		"weatherKeyVault1_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://OpenwheatherAPI.vault.azure.net/"
 		},
 		"weatherboston1_properties_typeProperties_url": {
 			"type": "string",
@@ -71,14 +71,14 @@
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
 					"GitHubforScottLyu_properties_typeProperties_username": {
 						"value": "[parameters('GitHubforScottLyu_properties_typeProperties_username')]"
 					},
 					"pollution_properties_typeProperties_url": {
 						"value": "[parameters('pollution_properties_typeProperties_url')]"
-					},
-					"weatherKeyVault1_properties_typeProperties_baseUrl": {
-						"value": "[parameters('weatherKeyVault1_properties_typeProperties_baseUrl')]"
 					},
 					"weatherboston1_properties_typeProperties_url": {
 						"value": "[parameters('weatherboston1_properties_typeProperties_url')]"

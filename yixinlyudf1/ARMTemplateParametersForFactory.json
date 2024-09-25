@@ -14,14 +14,14 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://yixinlyuds598.dfs.core.windows.net/"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://OpenwheatherAPI.vault.azure.net/"
+		},
 		"GitHubforScottLyu_properties_typeProperties_username": {
 			"value": "Scottlyu134"
 		},
 		"pollution_properties_typeProperties_url": {
 			"value": "http://api.openweathermap.org/"
-		},
-		"weatherKeyVault1_properties_typeProperties_baseUrl": {
-			"value": "https://OpenwheatherAPI.vault.azure.net/"
 		},
 		"weatherboston1_properties_typeProperties_url": {
 			"value": "https://history.openweathermap.org/"
