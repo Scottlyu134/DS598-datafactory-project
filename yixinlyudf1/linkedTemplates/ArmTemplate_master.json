@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'credential' of 'GitHubforScottLyu'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://yixinlyuds598.dfs.core.windows.net/"
@@ -27,13 +23,9 @@
 			"type": "string",
 			"defaultValue": "Scottlyu134"
 		},
-		"RestService1_properties_typeProperties_url": {
+		"pollution_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://api.openweathermap.org/data/2.5/air_pollution/history?lat=42.3601&lon=-71.0589&start=1695081600&end=1726617600&appid=9cbcdd7a500b50c08496a2255abfe4fe"
-		},
-		"RestService1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Scottlyu134"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"weatherKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -41,7 +33,7 @@
 		},
 		"weatherboston1_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org/data/2.5/history/city"
+			"defaultValue": "https://history.openweathermap.org/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -76,20 +68,14 @@
 					"GitHubforScottLyu_credential": {
 						"value": "[parameters('GitHubforScottLyu_credential')]"
 					},
-					"RestService1_password": {
-						"value": "[parameters('RestService1_password')]"
-					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
 					"GitHubforScottLyu_properties_typeProperties_username": {
 						"value": "[parameters('GitHubforScottLyu_properties_typeProperties_username')]"
 					},
-					"RestService1_properties_typeProperties_url": {
-						"value": "[parameters('RestService1_properties_typeProperties_url')]"
-					},
-					"RestService1_properties_typeProperties_userName": {
-						"value": "[parameters('RestService1_properties_typeProperties_userName')]"
+					"pollution_properties_typeProperties_url": {
+						"value": "[parameters('pollution_properties_typeProperties_url')]"
 					},
 					"weatherKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('weatherKeyVault1_properties_typeProperties_baseUrl')]"

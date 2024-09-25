@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'credential' of 'GitHubforScottLyu'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://yixinlyuds598.dfs.core.windows.net/"
@@ -27,13 +23,9 @@
 			"type": "string",
 			"defaultValue": "Scottlyu134"
 		},
-		"RestService1_properties_typeProperties_url": {
+		"pollution_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://api.openweathermap.org/data/2.5/air_pollution/history?lat=42.3601&lon=-71.0589&start=1695081600&end=1726617600&appid=9cbcdd7a500b50c08496a2255abfe4fe"
-		},
-		"RestService1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Scottlyu134"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"weatherKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -41,27 +33,13 @@
 		},
 		"weatherboston1_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org/data/2.5/history/city"
+			"defaultValue": "https://history.openweathermap.org/"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"containerUri": "https://yixinlyuds598.blob.core.windows.net/container1",
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -99,21 +77,16 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"name": "[concat(parameters('factoryName'), '/pollution')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "RestService",
 				"typeProperties": {
-					"url": "[parameters('RestService1_properties_typeProperties_url')]",
+					"url": "[parameters('pollution_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
-					"authenticationType": "Basic",
-					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('RestService1_password')]"
-					}
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -182,19 +155,20 @@
 				},
 				"parameters": {
 					"startDate": {
-						"type": "string",
-						"defaultValue": "@addDays(pipeline().parameters.startDate, item() * 7, 'yyyy-MM-dd')"
+						"type": "string"
 					},
 					"endDate": {
-						"type": "string",
-						"defaultValue": "@addDays(pipeline().parameters.startDate, (item() * 7) + 7, 'yyyy-MM-dd')"
+						"type": "string"
+					},
+					"apiKey": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=9cbcdd7a500b50c08496a2255abfe4fe\n",
+						"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=@{dataset().apiKey}\n",
 						"type": "Expression"
 					}
 				},
@@ -225,7 +199,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://OpenwheatherAPI.vault.azure.net/secrets/OpeneatherAPI?api-version=7.0",
+							"url": "https://weatherKeyVault1/secrets/OpenWeatherAPIKey? api-version=7.0",
 							"body": {
 								"name": "test",
 								"file": "abfs://scripts@manhernastorage.blob.core.windows.net/p-scala-spark-1.0-SNAPSHOT.jar",
@@ -263,7 +237,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@range(0, div(sub(ticks(pipeline().parameters.endDate), ticks(pipeline().parameters.startDate)), 604800000000))\n",
+								"value": "@range(0, 52)\n",
 								"type": "Expression"
 							},
 							"activities": [
@@ -306,11 +280,15 @@
 											"type": "DatasetReference",
 											"parameters": {
 												"startDate": {
-													"value": "@addDays(pipeline().parameters.startDate, mul(item(), 7), 'yyyy-MM-dd')\n",
+													"value": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 													"type": "Expression"
 												},
 												"endDate": {
-													"value": "@addDays(pipeline().parameters.startDate, add(mul(item(), 7), 7), 'yyyy-MM-dd')\n",
+													"value": "@div(sub(ticks(addDays(utcNow(), -7)), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
+													"type": "Expression"
+												},
+												"apiKey": {
+													"value": "Openweather.output().value()",
 													"type": "Expression"
 												}
 											}
@@ -330,16 +308,6 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"startDate": {
-						"type": "string",
-						"defaultValue": "@addDays(utcNow(), -365, 'yyyy-MM-dd')"
-					},
-					"endDate": {
-						"type": "string",
-						"defaultValue": "@utcNow('yyyy-MM-dd')"
-					}
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-04-20T22:02:37Z"
