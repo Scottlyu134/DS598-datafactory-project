@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "GET",
-					"url": "https://weatherKeyVault1/secrets/OpenWeatherAPIKey? api-version=7.0",
+					"url": "https://OpenwheatherAPI/secrets/OpenWeatherAPIKey? api-version=7.0",
 					"body": {
 						"name": "test",
 						"file": "abfs://scripts@manhernastorage.blob.core.windows.net/p-scala-spark-1.0-SNAPSHOT.jar",
