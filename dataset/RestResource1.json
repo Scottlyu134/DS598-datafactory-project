@@ -7,19 +7,20 @@
 		},
 		"parameters": {
 			"startDate": {
-				"type": "string",
-				"defaultValue": "@addDays(pipeline().parameters.startDate, item() * 7, 'yyyy-MM-dd')"
+				"type": "string"
 			},
 			"endDate": {
-				"type": "string",
-				"defaultValue": "@addDays(pipeline().parameters.startDate, (item() * 7) + 7, 'yyyy-MM-dd')"
+				"type": "string"
+			},
+			"apiKey": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=9cbcdd7a500b50c08496a2255abfe4fe\n",
+				"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=@{dataset().apiKey}\n",
 				"type": "Expression"
 			}
 		},
