@@ -240,7 +240,8 @@
 								"value": "@range(0, 52)\n",
 								"type": "Expression"
 							},
-							"isSequential": true,
+							"isSequential": false,
+							"batchCount": 10,
 							"activities": [
 								{
 									"name": "Copy data2",
