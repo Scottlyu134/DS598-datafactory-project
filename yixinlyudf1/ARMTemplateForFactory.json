@@ -401,7 +401,7 @@
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "data/2.5/history/city?lat=42.3601&lon=-71.0589&type=hour&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=@{dataset().apiKey}",
+						"value": "data/2.5/air_pollution/history?lat=42.3601&lon=-71.0589&start=@{dataset().startDate}&end=@{dataset().endDate}&appid=@{dataset().apiKey}",
 						"type": "Expression"
 					}
 				},
