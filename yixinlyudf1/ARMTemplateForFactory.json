@@ -333,7 +333,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "bronze",
+						"folderPath": "Bronze/historicalpollution",
 						"fileSystem": "container1"
 					}
 				},
