@@ -13,7 +13,11 @@
 					"description": "the historical data form Bronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "flatten1"
@@ -84,10 +88,10 @@
 				"          temp_max_F = round((temp_max - 273.15) * 9/5 + 32, 2),",
 				"          lon = -71.0589,",
 				"          lat = 42.3601,",
-				"          weather_id_value = toInteger(split(toString(weather_id), ':')[1]),",
-				"          weather_main_value = toString(weather_main),",
-				"          weather_description_value = toString(weather_description),",
-				"          weather_icon_value = toString(weather_icon)) ~> derivedColumn2",
+				"          weather_id_value = toInteger(split(toString(weather_id[1]), ': ')[1]),",
+				"          weather_main_value = split(toString(weather_main[1]), ': ')[1],",
+				"          weather_description_value = split(toString(weather_description[1]), ': ')[1],",
+				"          weather_icon_value = split(toString(weather_icon[1]), ': ')[1]) ~> derivedColumn2",
 				"derivedColumn2 select(mapColumn(",
 				"          clouds_all,",
 				"          feels_like_K = feels_like,",
@@ -117,7 +121,11 @@
 				"          weather_icon_value",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
